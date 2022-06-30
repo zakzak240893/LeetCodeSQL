@@ -20,3 +20,20 @@
 -- Note:
 -- If there is no such number, just output null.
 -- Solution
+with counted as
+(
+	select
+		num,
+		count(1) over(partition by num) as cnt
+	from
+		my_numbers
+)
+select 
+	num
+from
+	counted
+where 
+	cnt = 1
+order by 
+	num desc
+limit 1;

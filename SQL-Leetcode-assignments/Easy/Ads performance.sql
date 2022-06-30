@@ -46,3 +46,23 @@
 -- Note that we don't care about Ignored Ads.
 -- Result table is ordered by the ctr. in case of a tie we order them by ad_id
 -- Solution
+with prep as 
+(
+	select 
+		ad_id,
+		sum(case when action = 1 then 1 else 0 end) click_cnt,
+		sum(case when action < 3 then 1 else 0 end) click_view_cnt
+	from
+		Ads
+	group by 
+		ad_id
+)
+select 
+	ad_id,
+	round(
+		(click_cnt / case when click_view_cnt = 0 then 1 else click_view_cnt end) * 100,
+		2
+	) as ctr	
+
+order by 
+	2 desc, 1 asc;

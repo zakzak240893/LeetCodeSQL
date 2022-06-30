@@ -53,3 +53,17 @@
 -- Average selling price for product 1 = ((100 * 5) + (15 * 20)) / 115 = 6.96
 -- Average selling price for product 2 = ((200 * 15) + (30 * 30)) / 230 = 16.96
 -- Solution
+select
+	product_id,
+	round(
+		sum(p.price * us.units)/ -- as all_units_price,
+		sum(us.units), --as all_units_count
+		2
+	) as average_price
+from 
+	UnitsSold as us
+	join Prices p 
+		on p.product_id == us.product_id
+		and us.purchase_date between p.start_date and p.end_date
+group by 
+	product_id

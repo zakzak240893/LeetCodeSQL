@@ -18,3 +18,16 @@
 -- The seat_id is an auto increment int, and free is bool ('1' means free, and '0' means occupied.).
 -- Consecutive available seats are more than 2(inclusive) seats consecutively available.
 -- Solution
+select
+	seat_id
+from
+	cinema c
+	where 
+		free = 1
+		and not exists (
+			select 1 
+			from cinema i 
+			where 
+				c.seat_id = i.seat_id - 1
+				and i.free = 0
+		)

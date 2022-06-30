@@ -19,3 +19,11 @@
 -- | Algeria      | 37100000    | 2381741      |
 -- +--------------+-------------+--------------+
 -- Solution
+select
+	name,
+	population,
+	area
+from
+	World
+where
+	area >= 3 * 10 ^ 6

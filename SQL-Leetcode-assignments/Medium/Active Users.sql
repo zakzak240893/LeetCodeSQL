@@ -51,3 +51,24 @@
 -- User Winston with id = 1 logged in 2 times only in 2 different days, so, Winston is not an active user.
 -- User Jonathan with id = 7 logged in 7 times in 6 different days, five of them were consecutive days, so, Jonathan is an active user.
 -- Solution
+with recursive rec as 
+(
+	select 1 as iter, id, login_date from Logins o
+	where not exists (
+			select 1 from logins i 
+			where o.id = i.id and i.login_date = o.login_date - '1 day'::interval)
+	union
+	select 
+		rec.iter+1, 
+		rec.id, 
+		l.login_date 
+	from rec
+	 	join logins l on 
+			rec.id = l.id 
+			and rec.login_date + '1 day'::interval = l.login_date
+)
+select 
+	distinct rec.id, a.name 
+from rec
+join Accounts a on a.id == rec.id
+where iter > 4

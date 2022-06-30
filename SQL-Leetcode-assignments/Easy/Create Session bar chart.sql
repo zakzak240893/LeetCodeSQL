@@ -35,3 +35,34 @@
 -- There are no session with a duration greater or equial than 10 minutes and less than 15 minutes.
 -- For session_id 5 has a duration greater or equal than 15 minutes.
 -- Solution 2
+
+with bins as 
+
+(
+	select '[0-5>' as bin
+	union all
+	select '[5-10>'
+	union all
+	select '[10-15>'
+	union all
+	select '15 minutes or more'
+),
+counted as 
+(
+select
+	session_id,
+	case 
+		when duration between 0 and 5*60-1 then '[0-5>' 
+		when duration between 5*60 and 10*60-1  then '[5-10>'
+		when duration between 10*60 and 15*60-1 then '[10-15>' 
+		else '15 minutes or more' 
+	end as bin
+from
+	Sessions
+)
+select 
+	b.bin, 
+	count(c.session_id) as total 
+from 
+	bins b 
+	left join counted c on c.bin = b.bin

@@ -43,3 +43,18 @@
 -- So the rate is 0.80.
 
 -- Solution
+with request_query as 
+(
+	select count(distinct sender_id || '_'||send_to_id) as requests_cnt from friend_request
+),
+accept_query as 
+(
+	select count(distinct requester_id || '_'||accepter_id) as accepts_count from request_accepted
+)
+select 
+caolesce(
+	round(
+		(select accepts_count from accept_query) / 
+		(select requests_cnt from request_query),
+		2),
+0.00)		as accept_rate

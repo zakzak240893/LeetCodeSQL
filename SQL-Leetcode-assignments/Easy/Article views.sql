@@ -33,3 +33,11 @@
 -- | 7    |
 -- +------+
 -- Solution
+select 
+	distinct 
+	author_id as id
+from 
+	Views
+where 
+	author_id = viewer_id
+order by 1 asc;

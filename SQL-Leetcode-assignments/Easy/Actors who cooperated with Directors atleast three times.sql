@@ -30,3 +30,14 @@
 -- +-------------+-------------+
 -- The only pair is (1, 1) where they cooperated exactly 3 times.
 -- Solution 
+
+select
+	actor_id,
+	director_id
+from
+	ActorDirector
+group by
+	actor_id,
+	director_id
+having
+	count(distinct timestamp) >= 3

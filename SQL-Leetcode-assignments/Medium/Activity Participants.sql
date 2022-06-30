@@ -51,3 +51,16 @@
 -- Horse Riding activity is performed by 1 friend, minimum number of participants, (Bob B.)
 -- Singing is performed by 2 friends (Victor J. and Jade W.)
 -- Solution
+with counted as 
+(
+	select 
+	*,
+	count(name) over(partition by activity) as cnt
+	from Friends
+),
+minmax as 
+(
+	select max(cnt) as maximum, min(cnt) as minimum from counted 
+)
+select distinct activity from counted c where not exists
+	(select 1 from minmax where c.cnt = maximum or c.cnt = minimum)
