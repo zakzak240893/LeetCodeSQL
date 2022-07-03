@@ -37,3 +37,5 @@
 -- Employees with Id 4 is part of a team with team_id = 7.
 -- Employees with Id 5,6 are part of a team with team_id = 9.
 -- Solution
+select distinct employee_id, count(employee_id) over(partition by team_id) as team_size
+from Employee

@@ -16,3 +16,12 @@
 -- | 2  | bob@example.com  |
 -- +----+------------------+
 -- Solution
+delete from Person o
+where exists (
+	select 1 
+	from Person i 
+	where 
+		o.Email = i.Email 
+		and 
+		o.id > i.id
+		);

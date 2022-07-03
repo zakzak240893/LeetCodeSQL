@@ -17,3 +17,15 @@
 -- | Joe      |
 -- +----------+
 -- Solution
+select Name
+from
+	Employee e
+where exists
+(
+	select 1
+	from Employee m
+	where 
+		e.ManagerId = m.id 
+		and 
+		e.Salary > m.Salary
+)

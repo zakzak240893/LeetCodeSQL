@@ -35,3 +35,12 @@
 -- "Alladin" is a movie, content for kids and was streamed in June 2020.
 -- "Cinderella" was not streamed in June 2020.
 -- Solution
+select
+	distinct title
+from 
+	TVProgram tv
+	join Content c on c.content_id = tv.content_id
+where 
+	date_trunc('month',program_date) = '2020-06-01'::date
+	and content_type == 'Movies'
+	and Kids_content = 'Y'

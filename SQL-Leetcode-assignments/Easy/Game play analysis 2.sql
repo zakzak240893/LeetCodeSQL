@@ -32,3 +32,14 @@
 -- | 3         | 1         |
 -- +-----------+-----------+
 -- Solution
+with base_table as 
+(
+	select 
+		player_id,
+		device_id,
+		row_number() over(partition by player_id order by event_date asc) as ord
+	from Activity
+)
+select  distinct player_id, device_id
+from base_table
+where ord = 1;

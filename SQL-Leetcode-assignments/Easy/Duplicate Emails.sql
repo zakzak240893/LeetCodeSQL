@@ -14,3 +14,6 @@
 -- | a@b.com |
 -- +---------+
 -- Solution
+select distinct Email 
+from Person o
+where exists (select 1 from Person i where i.id != o.id and o.Email = i.Email

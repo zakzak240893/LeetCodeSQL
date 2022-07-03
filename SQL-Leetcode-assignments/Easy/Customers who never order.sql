@@ -25,3 +25,8 @@
 -- | Max       |
 -- +-----------+
 -- Solution
+select 
+	Name as Customers 
+from customers c
+where 
+	not exists (select 1 from Orders o where c.id == o.CustomerId)

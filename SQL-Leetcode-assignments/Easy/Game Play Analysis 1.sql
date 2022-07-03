@@ -32,3 +32,14 @@
 -- | 3         | 2016-03-02  |
 -- +-----------+-------------+
 -- Solution
+with base_table as 
+(
+	select 
+		player_id,
+		event_date,
+		row_number() over(partition by player_id order by event_date asc) as ord
+	from Activity
+)
+select  distinct player_id, event_date as first_login 
+from base_table
+where ord = 1;

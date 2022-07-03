@@ -21,3 +21,4 @@
 -- | Zack |
 -- +------+
 -- Solution
+select name from customers where coalesce(referee_id, 0) != 2
