@@ -35,3 +35,22 @@
 -- There are only two employees in the Sales department, 
 -- Henry earns the highest salary while Sam earns the second highest salary.
 -- Solution
+with ranked_qeury as
+(
+	select 
+		d.Name as Department,
+		e.Employee,
+		e.Salary,
+		dense_rank() over(partition by d.id order by e.salary desc) as dr
+	from Employee e
+	join Department d
+	on e.DepartmentId = d.id
+)
+select 	
+	Department,
+	Employee,
+	Salary
+from
+	ranked_qeury
+where dr < 4;
+	

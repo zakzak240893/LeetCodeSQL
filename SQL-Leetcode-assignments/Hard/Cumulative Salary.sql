@@ -42,3 +42,20 @@
 -- | 3  | 3     | 100    |
 -- | 3  | 2     | 40     |
 -- Solution
+with filtered_out_recent_mnth_prep as 
+(
+	select 
+		 *,
+		 row_number() over(partition by id order by Month desc) as ord
+	from
+		Employee
+)
+select 
+	Id,
+	Month,
+	sum(Salary) over(partition by id order by Month asc) as Salary
+from 
+	filtered_out_recent_mnth_prep
+where
+	ord != 1
+order by 1,2 desc
